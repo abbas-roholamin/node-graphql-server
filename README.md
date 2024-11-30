@@ -7,7 +7,7 @@ A brief description of what the project does.
 Clone the repository
 
 ```bash
-    git clone https://github.com/your-username/your-project.git
+   https://github.com/abbas-roholamin/node-graphql-server.git
 ```
 
 Install dependencies
