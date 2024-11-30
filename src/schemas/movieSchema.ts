@@ -13,7 +13,7 @@ const movieSchema = `#graphql
   }
 
   type Query {
-    movies(search: String, page: Int, limit: Int): [Movie!]!
+    movies(search: String, page: Int): [Movie!]!
     movie(id: ID!): Movie
   }
 `
