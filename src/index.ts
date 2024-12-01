@@ -27,6 +27,9 @@ app.use(
   cors<cors.CorsRequest>({
     origin: [
       "*",
+      "http://localhost:3000",
+      "https://node-graphql-server.onrender.com/",
+      "https://studio.apollographql.com/",
     ],
   }),
   express.json(),
