@@ -1,22 +1,45 @@
 /** @format */
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import express from "express";
+import http from "http";
+import cors from "cors";
 
-import { ApolloServer } from "@apollo/server"
-import { startStandaloneServer } from "@apollo/server/standalone"
-import { connectDB } from "./config/database.js"
-import typeDefs from "./schemas/index.js"
-import resolvers from "./resolvers/index.js"
-import context from "./context/context.js"
+import { connectDB } from "./config/database.js";
+import typeDefs from "./schemas/index.js";
+import resolvers from "./resolvers/index.js";
+import context from "./context/context.js";
 
+
+const app = express();
+const httpServer = http.createServer(app);
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-})
+  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+});
 
-const { url } = await startStandaloneServer(server, {
-  listen: { port: 4000 },
-  context: context,
-})
+await server.start();
+
+app.use(
+  "/",
+  cors<cors.CorsRequest>({
+    origin: [
+      "*",
+    ],
+  }),
+  express.json(),
+  expressMiddleware(server, {
+    context,
+  })
+);
+
+
 
 await connectDB()
 
-console.log(`🚀  Server ready at: ${url}`)
+await new Promise<void>((resolve) =>
+  httpServer.listen({ port: 4000 }, resolve)
+);
+console.log(`🚀 Server ready at http://localhost:4000`);
