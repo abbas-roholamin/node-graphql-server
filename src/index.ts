@@ -30,6 +30,7 @@ app.use(
       "http://localhost:3000",
       "https://node-graphql-server.onrender.com/",
       "https://studio.apollographql.com/",
+      "https://movieland-1zdk.vercel.app/"
     ],
   }),
   express.json(),
